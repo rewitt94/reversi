@@ -1,0 +1,31 @@
+#othello_board {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#othello_board > div {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  width: 80px;
+  height: 640px;
+}
+
+#othello_board > div > div {
+  border-style: solid;
+  border-width: thin;
+  background: green;
+}
+
+#othello_board > div > div:hover {
+  background: red;
+}
+
+#othello_board > div > div > div {
+  position: relative;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 100%;
+}

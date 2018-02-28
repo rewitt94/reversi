@@ -1,5 +1,5 @@
 {
-  "name": "helicopter",
+  "name": "Othello",
   "version": "0.0.1",
   "dependencies": {
     "express": "*"
