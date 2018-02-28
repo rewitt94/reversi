@@ -5,87 +5,98 @@
 </head>
 
 <link rel="stylesheet" type="text/css" href="style.css">
+<div id="outer_div">
+  <div id="black_score_div">
+    <h1>black score: <span id="black_score">2</span></h1>
+    <br></br>
+    <h1>white score: <span id="white_score">2</span></h1>
+    <br></br>
+    <h1><span id="current_player">black</span>'s turn</h1>
+  </div>
+  <div id="white_score_div">
 
-<div id="othello_board">
-  <div id="A">
-    <div onclick="clickHere('A1')"><div id="A1"></div></div>
-    <div onclick="clickHere('A2')"><div id="A2"></div></div>
-    <div onclick="clickHere('A3')"><div id="A3"></div></div>
-    <div onclick="clickHere('A4')"><div id="A4"></div></div>
-    <div onclick="clickHere('A5')"><div id="A5"></div></div>
-    <div onclick="clickHere('A6')"><div id="A6"></div></div>
-    <div onclick="clickHere('A7')"><div id="A7"></div></div>
-    <div onclick="clickHere('A8')"><div id="A8"></div></div>
   </div>
-  <div id="B">
-    <div onclick="clickHere('B1')"><div id="B1"></div></div>
-    <div onclick="clickHere('B2')"><div id="B2"></div></div>
-    <div onclick="clickHere('B3')"><div id="B3"></div></div>
-    <div onclick="clickHere('B4')"><div id="B4"></div></div>
-    <div onclick="clickHere('B5')"><div id="B5"></div></div>
-    <div onclick="clickHere('B6')"><div id="B6"></div></div>
-    <div onclick="clickHere('B7')"><div id="B7"></div></div>
-    <div onclick="clickHere('B8')"><div id="B8"></div></div>
-  </div>
-  <div id="C">
-    <div onclick="clickHere('C1')"><div id="C1"></div></div>
-    <div onclick="clickHere('C2')"><div id="C2"></div></div>
-    <div onclick="clickHere('C3')"><div id="C3"></div></div>
-    <div onclick="clickHere('C4')"><div id="C4"></div></div>
-    <div onclick="clickHere('C5')"><div id="C5"></div></div>
-    <div onclick="clickHere('C6')"><div id="C6"></div></div>
-    <div onclick="clickHere('C7')"><div id="C7"></div></div>
-    <div onclick="clickHere('C8')"><div id="C8"></div></div>
-  </div>
-  <div id="D">
-    <div onclick="clickHere('D1')"><div id="D1"></div></div>
-    <div onclick="clickHere('D2')"><div id="D2"></div></div>
-    <div onclick="clickHere('D3')"><div id="D3"></div></div>
-    <div onclick="clickHere('D4')"><div id="D4" style="white"></div></div>
-    <div onclick="clickHere('D5')"><div id="D5" style="black"></div></div>
-    <div onclick="clickHere('D6')"><div id="D6"></div></div>
-    <div onclick="clickHere('D7')"><div id="D7"></div></div>
-    <div onclick="clickHere('D8')"><div id="D8"></div></div>
-  </div>
-  <div id="E">
-    <div onclick="clickHere('E1')"><div id="E1"></div></div>
-    <div onclick="clickHere('E2')"><div id="E2"></div></div>
-    <div onclick="clickHere('E3')"><div id="E3"></div></div>
-    <div onclick="clickHere('E4')"><div id="E4" style="black"></div></div>
-    <div onclick="clickHere('E5')"><div id="E5" style="white"></div></div>
-    <div onclick="clickHere('E6')"><div id="E6"></div></div>
-    <div onclick="clickHere('E7')"><div id="E7"></div></div>
-    <div onclick="clickHere('E8')"><div id="E8"></div></div>
-  </div>
-  <div id="F">
-    <div onclick="clickHere('F1')"><div id="F1"></div></div>
-    <div onclick="clickHere('F2')"><div id="F2"></div></div>
-    <div onclick="clickHere('F3')"><div id="F3"></div></div>
-    <div onclick="clickHere('F4')"><div id="F4"></div></div>
-    <div onclick="clickHere('F5')"><div id="F5"></div></div>
-    <div onclick="clickHere('F6')"><div id="F6"></div></div>
-    <div onclick="clickHere('F7')"><div id="F7"></div></div>
-    <div onclick="clickHere('F8')"><div id="F8"></div></div>
-  </div>
-  <div id="G">
-    <div onclick="clickHere('G1')"><div id="G1"></div></div>
-    <div onclick="clickHere('G2')"><div id="G2"></div></div>
-    <div onclick="clickHere('G3')"><div id="G3"></div></div>
-    <div onclick="clickHere('G4')"><div id="G4"></div></div>
-    <div onclick="clickHere('G5')"><div id="G5"></div></div>
-    <div onclick="clickHere('G6')"><div id="G6"></div></div>
-    <div onclick="clickHere('G7')"><div id="G7"></div></div>
-    <div onclick="clickHere('G8')"><div id="G8"></div></div>
-  </div>
-  <div id="F">
-    <div onclick="clickHere('H1')"><div id="H1"></div></div>
-    <div onclick="clickHere('H2')"><div id="H2"></div></div>
-    <div onclick="clickHere('H3')"><div id="H3"></div></div>
-    <div onclick="clickHere('H4')"><div id="H4"></div></div>
-    <div onclick="clickHere('H5')"><div id="H5"></div></div>
-    <div onclick="clickHere('H6')"><div id="H6"></div></div>
-    <div onclick="clickHere('H7')"><div id="H7"></div></div>
-    <div onclick="clickHere('H8')"><div id="H8"></div></div>
+  <div id="othello_board">
+    <div id="A">
+      <div onclick="clickHere('A1')"><div id="A1"></div></div>
+      <div onclick="clickHere('A2')"><div id="A2"></div></div>
+      <div onclick="clickHere('A3')"><div id="A3"></div></div>
+      <div onclick="clickHere('A4')"><div id="A4"></div></div>
+      <div onclick="clickHere('A5')"><div id="A5"></div></div>
+      <div onclick="clickHere('A6')"><div id="A6"></div></div>
+      <div onclick="clickHere('A7')"><div id="A7"></div></div>
+      <div onclick="clickHere('A8')"><div id="A8"></div></div>
+    </div>
+    <div id="B">
+      <div onclick="clickHere('B1')"><div id="B1"></div></div>
+      <div onclick="clickHere('B2')"><div id="B2"></div></div>
+      <div onclick="clickHere('B3')"><div id="B3"></div></div>
+      <div onclick="clickHere('B4')"><div id="B4"></div></div>
+      <div onclick="clickHere('B5')"><div id="B5"></div></div>
+      <div onclick="clickHere('B6')"><div id="B6"></div></div>
+      <div onclick="clickHere('B7')"><div id="B7"></div></div>
+      <div onclick="clickHere('B8')"><div id="B8"></div></div>
+    </div>
+    <div id="C">
+      <div onclick="clickHere('C1')"><div id="C1"></div></div>
+      <div onclick="clickHere('C2')"><div id="C2"></div></div>
+      <div onclick="clickHere('C3')"><div id="C3"></div></div>
+      <div onclick="clickHere('C4')"><div id="C4"></div></div>
+      <div onclick="clickHere('C5')"><div id="C5"></div></div>
+      <div onclick="clickHere('C6')"><div id="C6"></div></div>
+      <div onclick="clickHere('C7')"><div id="C7"></div></div>
+      <div onclick="clickHere('C8')"><div id="C8"></div></div>
+    </div>
+    <div id="D">
+      <div onclick="clickHere('D1')"><div id="D1"></div></div>
+      <div onclick="clickHere('D2')"><div id="D2"></div></div>
+      <div onclick="clickHere('D3')"><div id="D3"></div></div>
+      <div onclick="clickHere('D4')"><div id="D4" style="white"></div></div>
+      <div onclick="clickHere('D5')"><div id="D5" style="black"></div></div>
+      <div onclick="clickHere('D6')"><div id="D6"></div></div>
+      <div onclick="clickHere('D7')"><div id="D7"></div></div>
+      <div onclick="clickHere('D8')"><div id="D8"></div></div>
+    </div>
+    <div id="E">
+      <div onclick="clickHere('E1')"><div id="E1"></div></div>
+      <div onclick="clickHere('E2')"><div id="E2"></div></div>
+      <div onclick="clickHere('E3')"><div id="E3"></div></div>
+      <div onclick="clickHere('E4')"><div id="E4" style="black"></div></div>
+      <div onclick="clickHere('E5')"><div id="E5" style="white"></div></div>
+      <div onclick="clickHere('E6')"><div id="E6"></div></div>
+      <div onclick="clickHere('E7')"><div id="E7"></div></div>
+      <div onclick="clickHere('E8')"><div id="E8"></div></div>
+    </div>
+    <div id="F">
+      <div onclick="clickHere('F1')"><div id="F1"></div></div>
+      <div onclick="clickHere('F2')"><div id="F2"></div></div>
+      <div onclick="clickHere('F3')"><div id="F3"></div></div>
+      <div onclick="clickHere('F4')"><div id="F4"></div></div>
+      <div onclick="clickHere('F5')"><div id="F5"></div></div>
+      <div onclick="clickHere('F6')"><div id="F6"></div></div>
+      <div onclick="clickHere('F7')"><div id="F7"></div></div>
+      <div onclick="clickHere('F8')"><div id="F8"></div></div>
+    </div>
+    <div id="G">
+      <div onclick="clickHere('G1')"><div id="G1"></div></div>
+      <div onclick="clickHere('G2')"><div id="G2"></div></div>
+      <div onclick="clickHere('G3')"><div id="G3"></div></div>
+      <div onclick="clickHere('G4')"><div id="G4"></div></div>
+      <div onclick="clickHere('G5')"><div id="G5"></div></div>
+      <div onclick="clickHere('G6')"><div id="G6"></div></div>
+      <div onclick="clickHere('G7')"><div id="G7"></div></div>
+      <div onclick="clickHere('G8')"><div id="G8"></div></div>
+    </div>
+    <div id="F">
+      <div onclick="clickHere('H1')"><div id="H1"></div></div>
+      <div onclick="clickHere('H2')"><div id="H2"></div></div>
+      <div onclick="clickHere('H3')"><div id="H3"></div></div>
+      <div onclick="clickHere('H4')"><div id="H4"></div></div>
+      <div onclick="clickHere('H5')"><div id="H5"></div></div>
+      <div onclick="clickHere('H6')"><div id="H6"></div></div>
+      <div onclick="clickHere('H7')"><div id="H7"></div></div>
+      <div onclick="clickHere('H8')"><div id="H8"></div></div>
+    </div>
   </div>
 </div>
 
