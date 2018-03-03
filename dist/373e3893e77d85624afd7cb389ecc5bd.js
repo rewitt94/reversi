@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({5:[function(require,module,exports) {
+})({8:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -176,7 +176,7 @@ var Board = exports.Board = function () {
 
   return Board;
 }();
-},{}],6:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -297,7 +297,7 @@ var Cell = exports.Cell = function () {
 
   return Cell;
 }();
-},{}],7:[function(require,module,exports) {
+},{}],9:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -461,7 +461,22 @@ window.playMove = function (idString) {
     cell.invalidate();
   }
 };
-},{"./board.js":5,"./cell.js":6,"./scoreboard.js":7}],19:[function(require,module,exports) {
+
+var ws = new WebSocket('ws://localhost:2018');
+
+// event emmited when connected
+ws.onopen = function () {
+  console.log('websocket is connected...');
+
+  // sending a send event to websocket server
+  ws.send([0, 1, 3, 4]);
+};
+
+// event emitted when recieving message
+ws.onmessage = function (ev) {
+  console.log(ev);
+};
+},{"./board.js":8,"./cell.js":7,"./scoreboard.js":9}],10:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -483,7 +498,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '62467' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '50420' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -584,5 +599,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[19,3])
+},{}]},{},[10,3])
 //# sourceMappingURL=/dist/373e3893e77d85624afd7cb389ecc5bd.map
