@@ -1,7 +1,12 @@
 {
-  "name": "reversi",
+  "name": "reversi2",
   "version": "0.0.1",
   "dependencies": {
-    "express": "*"
+    "express": "*",
+    "parcel-bundler": "*"
+  },
+  "scripts": {
+    "dev": "parcel ./view/index.html",
+    "build": "parcel build ./script/game.js"
   }
 }

@@ -9,4 +9,4 @@ app.get('/', function(req,res){
 });
 
 app.listen('4000');
-console.log('Othello running on port 4000');
+console.log('Reversi running on port 4000');
