@@ -8,13 +8,11 @@ export class Cell {
   setBlack() {
     var cell = document.getElementById(this.idString);
     cell.style['background-color'] = 'black';
-    cell.style.visibility = 'visible';
   }
 
   setWhite() {
     var cell = document.getElementById(this.idString);
     cell.style['background-color'] = 'white';
-    cell.style.visibility = 'visible';
   }
 
   setTransparent() {

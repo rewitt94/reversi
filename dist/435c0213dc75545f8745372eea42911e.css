@@ -5,14 +5,28 @@ body {
   margin: 0;
 }
 
-#black_score_div {
-  position: absolute;
-  left: 5%;
+button {
+  font-size: 30px;
 }
 
-#white_score_div {
+input {
+  font-size: 30px;
+}
+
+.options_div {
   position: absolute;
-  right: 5%;
+  padding-top:30%;
+  padding-bottom:30%;
+  height:40%;
+  width:100%;
+  text-align:center;
+  background:white;
+  z-index: 1;
+}
+
+#score_div {
+  position: absolute;
+  right: 10%;
 }
 
 #outer_div {
@@ -51,7 +65,6 @@ body {
 }
 
 #othello_board > div > div > div {
-  visibility: hidden;
   position: relative;
   left: 10%;
   top: 10%;

@@ -200,14 +200,12 @@ var Cell = exports.Cell = function () {
     value: function setBlack() {
       var cell = document.getElementById(this.idString);
       cell.style['background-color'] = 'black';
-      cell.style.visibility = 'visible';
     }
   }, {
     key: 'setWhite',
     value: function setWhite() {
       var cell = document.getElementById(this.idString);
       cell.style['background-color'] = 'white';
-      cell.style.visibility = 'visible';
     }
   }, {
     key: 'setTransparent',
@@ -346,6 +344,56 @@ var Scoreboard = exports.Scoreboard = function () {
 
   return Scoreboard;
 }();
+},{}],8:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GameMode = exports.GameMode = function () {
+  function GameMode() {
+    _classCallCheck(this, GameMode);
+
+    this.splitScreen = false;
+    this.multiplayer = false;
+    this.computerOpponent = false;
+    this.playingBlack = false;
+  }
+
+  _createClass(GameMode, [{
+    key: "playSplitScreen",
+    value: function playSplitScreen() {
+      this.splitScreen = true;
+    }
+  }, {
+    key: "playMultiplayer",
+    value: function playMultiplayer() {
+      this.multiplayer = true;
+    }
+  }, {
+    key: "playComputerOpponent",
+    value: function playComputerOpponent() {
+      this.ai = true;
+    }
+  }, {
+    key: "playAsBlack",
+    value: function playAsBlack() {
+      this.playingBlack = true;
+    }
+  }, {
+    key: "playAsWhite",
+    value: function playAsWhite() {
+      this.playingBlack = false;
+    }
+  }]);
+
+  return GameMode;
+}();
 },{}],3:[function(require,module,exports) {
 'use strict';
 
@@ -355,8 +403,11 @@ var _cell = require('./cell.js');
 
 var _scoreboard = require('./scoreboard.js');
 
+var _gamemode = require('./gamemode.js');
+
 var BOARD = new _board.Board(_cell.Cell);
 var SCOREBOARD = new _scoreboard.Scoreboard();
+var GAMEMODE = new _gamemode.GameMode();
 
 setUp();
 
@@ -366,6 +417,35 @@ function setUp() {
   BOARD.grid[3][4].setBlack();
   BOARD.grid[4][3].setBlack();
 }
+
+window.chooseGameMode = function (gameMode) {
+  switch (gameMode) {
+    case 'split_screen':
+      GAMEMODE.playSplitScreen();
+      break;
+    case 'multiplayer':
+      GAMEMODE.playMultiplayer();
+      document.getElementById('lobby_options_div').style.visibility = 'visible';
+      break;
+    case 'computer_opponent':
+      GAMEMODE.playComputerOpponent();
+      document.getElementById('player_color_div').style.visibility = 'visible';
+      break;
+  }
+  document.getElementById('game_mode_div').style.visibility = 'hidden';
+};
+
+window.chooseColor = function (color) {
+  switch (color) {
+    case 'black':
+      GAMEMODE.playAsBlack();
+      break;
+    case 'white':
+      GAMEMODE.playAsWhite();
+      break;
+  }
+  document.getElementById('player_color_div').style.visibility = 'hidden';
+};
 
 function updateScoresToHTML() {
   document.getElementById('black_score').innerHTML = SCOREBOARD.blackScore;
@@ -431,37 +511,151 @@ window.hideMove = function (idString) {
 window.playMove = function (idString) {
   var cell = BOARD.getCell(idString);
   if (cell.validation) {
-    cell.setOpaque();
-    if (SCOREBOARD.blackTurn) {
-      cell.setBlack();
-    } else {
-      cell.setWhite();
+    if (GAMEMODE.splitScreen) {
+      makeMove(idString);
+    } else if (GAMEMODE.multiplayer) {
+      if (GAMEMODE.playingBlack && SCOREBOARD.blackTurn || !GAMEMODE.playingBlack && !SCOREBOARD.blackTurn) {
+        ws.send('play_move,' + matchId + ',' + idString);
+      }
+    } else if (GAMEMODE.computerOpponent) {
+      if (GAMEMODE.playingBlack && SCOREBOARD.blackTurn || !GAMEMODE.playingBlack && !SCOREBOARD.blackTurn) {
+        makeMove(idString);
+        runAi();
+      }
     }
-    var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
-    var directionsCount = checkMove(idString);
-    for (var i = 0; i < 8; i++) {
-      var count = 0;
-      console.log(directionsCount[i]);
-      BOARD.traverse(idString, directions[i], function (cell) {
-        if (count < directionsCount[i]) {
-          if (SCOREBOARD.blackTurn) {
-            cell.flip('black');
-          } else {
-            cell.flip('white');
-          }
-          SCOREBOARD.transferScore();
-        }
-        count++;
-      });
-    }
-    SCOREBOARD.addScore();
-    console.log('oi');
-    SCOREBOARD.changePlayer();
-    updateScoresToHTML();
-    cell.invalidate();
   }
 };
-},{"./board.js":5,"./cell.js":6,"./scoreboard.js":7}],19:[function(require,module,exports) {
+
+function runAi() {}
+
+function makeMove(idString) {
+  var cell = BOARD.getCell(idString.toString());
+  cell.setOpaque();
+  if (SCOREBOARD.blackTurn) {
+    cell.setBlack();
+  } else {
+    cell.setWhite();
+  }
+  var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
+  var directionsCount = checkMove(idString);
+  for (var i = 0; i < 8; i++) {
+    var count = 0;
+    BOARD.traverse(idString, directions[i], function (cell) {
+      if (count < directionsCount[i]) {
+        if (SCOREBOARD.blackTurn) {
+          cell.flip('black');
+        } else {
+          cell.flip('white');
+        }
+        SCOREBOARD.transferScore();
+      }
+      count++;
+    });
+  }
+  SCOREBOARD.addScore();
+  SCOREBOARD.changePlayer();
+  updateScoresToHTML();
+  cell.invalidate();
+}
+
+var ws = new WebSocket('ws://localhost:2018');
+
+// event emmited when connected
+ws.onopen = function () {
+  console.log('websocket is connected...');
+
+  // sending a send event to websocket server
+};
+
+// This needs serious refactoring
+
+var matchPosted = false;
+var matchFound = true;
+var matchId = '';
+
+window.createMatch = function () {
+  document.getElementById('lobby_options_div').style.visibility = 'hidden';
+  document.getElementById('post_match_div').style.visibility = 'visible';
+};
+
+window.postMatch = function (matchName) {
+  if (!matchPosted) {
+    var matchId = Math.random();
+    // websockets only support strings currently
+    var string = 'post,' + matchId.toString() + ',' + matchName;
+    ws.send(string);
+    matchPosted = true;
+  }
+};
+
+window.searchMatches = function () {
+  ws.send('search');
+  document.getElementById('lobby_options_div').style.visibility = 'hidden';
+  document.getElementById('lobby_div').style.visibility = 'visible';
+};
+
+// event emitted when recieving message
+ws.onmessage = function (message) {
+  message = message.data.split(',');
+
+  if (message[0] == 'lobby') {
+    var lobby = document.getElementById('lobby_div');
+    if (message[1] == 'no_games') {
+      var noGames = document.createElement('H1');
+      noGames.innerHTML = 'No games available';
+      lobby.appendChild(noGames);
+    } else {
+      var _loop = function _loop() {
+        postedGame = document.createElement('button');
+
+        var id = message[3 * i + 1];
+        postedGame.addEventListener('click', function () {
+          ws.send('accept,' + id);
+        });
+        postedGame.innerHTML = message[3 * i + 2];
+        lobby.appendChild(postedGame);
+      };
+
+      for (var i = 0; i < message.length / 3; i++) {
+        var postedGame;
+
+        _loop();
+      }
+    }
+  };
+
+  if (message[0] == 'start_game_as_black') {
+    GAMEMODE.playAsBlack();
+    matchId = message[1];
+    matchFound = true;
+    matchPosted = false;
+    document.getElementById('lobby_div').style.visibility = 'hidden';
+    document.getElementById('post_match_div').style.visibility = 'hidden';
+    alert('you will play as black');
+  }
+
+  if (message[0] == 'start_game_as_white') {
+    GAMEMODE.playAsWhite();
+    matchId = message[1];
+    matchFound = true;
+    matchPosted = false;
+    document.getElementById('lobby_div').style.visibility = 'hidden';
+    document.getElementById('post_match_div').style.visibility = 'hidden';
+    alert('you will play as white');
+  }
+
+  if (message[0] == 'make_move') {
+    makeMove(message[1]);
+  }
+
+  if (message[0] == 'other_player_missing') {
+    var div = document.getElementById('cart_item');
+    while (div.firstChild) {
+      div.removeChild(div.firstChild);
+    }
+  }
+};
+},{"./board.js":5,"./cell.js":6,"./scoreboard.js":7,"./gamemode.js":8}],38:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -483,7 +677,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '62467' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54668' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -584,5 +778,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[19,3])
+},{}]},{},[38,3])
 //# sourceMappingURL=/dist/373e3893e77d85624afd7cb389ecc5bd.map

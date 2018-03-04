@@ -6,16 +6,43 @@
 
 <link rel="stylesheet" type="text/css" href="./style.css">
 <div id="outer_div">
-  <div id="black_score_div">
+
+  <div class="options_div" id="game_mode_div">
+    <button onclick="chooseGameMode('split_screen')">Split Screen</button>
+    <br></br>
+    <button onclick="chooseGameMode('multiplayer')">Multiplayer</button>
+    <br></br>
+    <button onclick="chooseGameMode('computer_opponent')">Computer Opponent</button>
+  </div>
+
+  <div class="options_div" id="lobby_options_div" style="visibility:hidden;">
+    <button onclick="createMatch()">Create Match</button>
+    <br></br>
+    <button onclick="searchMatches()">Search Match</button>
+  </div>
+
+  <div class="options_div" id="post_match_div" style="visibility:hidden;">
+    <input id="match_name" value="match_name"></input>
+    <br></br>
+    <button onclick="postMatch(document.getElementById('match_name').value)">Post Match</button>
+  </div>
+
+  <div class="options_div" id="lobby_div" style="visibility:hidden;">
+  </div>
+
+
+  <div class="options_div" id="player_color_div" style="visibility:hidden;">
+    <button onclick="chooseColor('white')">Play As Black</button>
+    <br></br>
+    <button onclick="chooseColor('black')">Play As White</button>
+  </div>
+
+  <div id="score_div">
     <h1>black score: <span id="black_score">2</span></h1>
     <br></br>
     <h1>white score: <span id="white_score">2</span></h1>
-    <br></br>
-    <h1><span id="current_player">black</span>'s turn</h1>
   </div>
-  <div id="white_score_div">
 
-  </div>
   <div id="othello_board">
     <div id="A">
       <div onmouseover="showMove('A1')" onmouseleave="hideMove('A1')" onclick="playMove('A1')"><div id="A1"></div></div>
