@@ -2,7 +2,7 @@ export class Cell {
 
   constructor(idString) {
     this.idString = idString;
-    this.validation = false;
+    this.validated = false;
   }
 
   setBlack() {
@@ -15,21 +15,6 @@ export class Cell {
     cell.style['background-color'] = 'white';
   }
 
-  setTransparent() {
-    var cell = document.getElementById(this.idString);
-    cell.style.opacity = 0.65;
-  }
-
-  setOpaque() {
-    var cell = document.getElementById(this.idString);
-    cell.style.opacity = 1;
-  }
-
-  removeColor() {
-    var cell = document.getElementById(this.idString);
-    cell.style['background-color'] = '';
-  }
-
   isClear() {
     var cell = document.getElementById(this.idString);
     return cell.style['background-color'] == '' ?  true : false;
@@ -40,43 +25,61 @@ export class Cell {
     return cell.style['background-color'];
   }
 
-  getOpacity() {
+  showValid(blackTurn) {
+    if (blackTurn) {
+      this.setBlack();
+    } else {
+      this.setWhite();
+    }
+    this._setTransparent();
+    this.validated = true;
+  }
+
+  hideValid() {
+    this.setOpaque();
+    this._removeColor();
+    this.validated = false;
+  }
+
+  setOpaque() {
     var cell = document.getElementById(this.idString);
-    return cell.style.opacity;
+    cell.style.opacity = 1;
   }
 
-  validate() {
-    this.validation = true;
+  _setTransparent() {
+    var cell = document.getElementById(this.idString);
+    cell.style.opacity = 0.65;
   }
 
-  invalidate() {
-    this.validation = false;
+  _removeColor() {
+    var cell = document.getElementById(this.idString);
+    cell.style['background-color'] = '';
   }
 
   flip(playingColor) {
     var cell = document.getElementById(this.idString);
     cell.style.width = '60px';
     cell.style.left = '10%';
-    console.log('oi')
-    this.decreaseWidth(cell, playingColor);
+    this._decreaseWidth(cell, playingColor);
   }
 
-  decreaseWidth(cell, playingColor) {
+  _decreaseWidth(cell, playingColor) {
     if (parseInt(cell.style.width) > 2) {
       cell.style.width = parseInt(cell.style.width) - 2 + 'px';
       cell.style.left = parseInt(cell.style.left) + 1 + 'px';
-      setTimeout(() => this.decreaseWidth(cell, playingColor), 1);
+      setTimeout(() => this._decreaseWidth(cell, playingColor), 1);
     } else {
       cell.style.background = playingColor;
-      this.increaseWidth(cell, playingColor);
+      this._increaseWidth(cell, playingColor);
     }
   }
 
-  increaseWidth(cell, playingColor) {
+  _increaseWidth(cell, playingColor) {
     if (parseInt(cell.style.width) < 60) {
       cell.style.width = parseInt(cell.style.width) + 2 + 'px';
       cell.style.left = parseInt(cell.style.left) - 1 + 'px';
-      setTimeout(() => this.increaseWidth(cell, playingColor), 1);
+      setTimeout(() => this._increaseWidth(cell, playingColor), 1);
     }
   }
+
 }

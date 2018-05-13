@@ -28,3 +28,5 @@ export class GameMode {
   }
 
 }
+
+//this might be irrelavant

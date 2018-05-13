@@ -3,23 +3,20 @@ import { Cell } from './cell.js'
 import { Scoreboard } from './scoreboard.js'
 import { GameMode } from './gamemode.js'
 
-const BOARD = new Board(Cell)
+const BOARD = new Board(document.getElementById('reversi_board'), Cell)
 const SCOREBOARD = new Scoreboard
 const GAMEMODE = new GameMode
 
-setUp()
+BOARD.grid[3][3].setWhite()
+BOARD.grid[4][4].setWhite()
+BOARD.grid[3][4].setBlack()
+BOARD.grid[4][3].setBlack()
 
-function setUp() {
-  BOARD.grid[3][3].setWhite()
-  BOARD.grid[4][4].setWhite()
-  BOARD.grid[3][4].setBlack()
-  BOARD.grid[4][3].setBlack()
-}
 
 window.chooseGameMode = function(gameMode) {
   switch (gameMode) {
     case 'split_screen':
-      GAMEMODE.playSplitScreen();
+        GAMEMODE.playSplitScreen();
       break;
     case 'multiplayer':
       GAMEMODE.playMultiplayer();
@@ -43,11 +40,6 @@ window.chooseColor = function(color) {
       break;
   }
   document.getElementById('player_color_div').style.visibility = 'hidden';
-}
-
-function updateScoresToHTML() {
-  document.getElementById('black_score').innerHTML = SCOREBOARD.blackScore;
-  document.getElementById('white_score').innerHTML = SCOREBOARD.whiteScore;
 }
 
 function checkMove(idString) {
@@ -154,7 +146,19 @@ function makeMove(idString) {
   cell.invalidate();
 }
 
-var ws = new WebSocket('ws://localhost:2018');
+// NODE_ENV is set by parcel
+// console.log("node env is", process.env.NODE_ENV);
+
+// 1 == "1" is true,
+// but 1 === "1" is false
+//
+// generally using === is "safer"
+
+const WEBSOCKET_PATH = process.env.NODE_ENV === "production" ?
+  'ws://ricky.hewitt.tech:80/reversiws' :
+  'ws://localhost:5000';
+
+var ws = new WebSocket(WEBSOCKET_PATH);
 
 // event emmited when connected
 ws.onopen = function() {
@@ -191,7 +195,7 @@ window.searchMatches = function() {
 }
 
 // event emitted when recieving message
-ws.onmessage = function (message) {
+function handleWebsocketMessage (message) {
   message = message.data.split(',');
   console.log(message)
   if (message[0] == 'lobby') {
@@ -243,3 +247,8 @@ ws.onmessage = function (message) {
   }
 
 }
+
+ws.onmessage = (message) => handleWebsocketMessage(message);
+
+// if handleWebsocketMessage is in a class use this, e.g.:
+// ws.onmessage = (message) => this.handleWebsocketMessage(message);

@@ -1,4 +1,4 @@
-export class Scoreboard {
+export class Scorer {
 
   constructor() {
     this.blackTurn = true;
@@ -26,4 +26,10 @@ export class Scoreboard {
   subtractScore() {
     this.blackTurn ? this.whiteScore-- : this.blackScore--;
   }
+
+  updateScoresToHTML() {
+    document.getElementById('black_score').innerHTML = this.blackScore;
+    document.getElementById('white_score').innerHTML = this.whiteScore;
+  }
+
 }

@@ -1,5 +1,6 @@
 body {
   position: absolute;
+  background-color: tan;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -39,7 +40,7 @@ input {
   align-items: center;
 }
 
-#othello_board {
+#reversi_board {
   position: absolute;
   flex-grow: 1;
   display: grid;
@@ -47,24 +48,24 @@ input {
   margin: 0 auto;
 }
 
-#othello_board > div {
+#reversi_board > div {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   width: 80px;
   height: 640px;
 }
 
-#othello_board > div > div {
+#reversi_board > div > div {
   border-style: solid;
   border-width: thin;
   background: green;
 }
 
-#othello_board > div > div:hover {
+#reversi_board > div > div:hover {
   background: red;
 }
 
-#othello_board > div > div > div {
+#reversi_board > div > div > div {
   position: relative;
   left: 10%;
   top: 10%;

@@ -1,53 +1,7 @@
-class MatchMaker {
-
-  constructor() {
-    this.pendingMatches = []
-    this.madeMatches = []
-  }
-
-  removePendingMatch(matchId) {
-    for(var i=0;i<this.pendingMatches.length;i++){
-      if (matchId == this.pendingMatches[i][0]) {
-        this.pendingMatches.splice(i,1)
-      }
-    }
-  }
-
-  removeMadeMatch(matchId) {
-    for(var i=0;i<this.madeMatches.length;i++){
-      if (matchId == this.madeMatches[i][0]) {
-        this.madeMatches.splice(i,1)
-      }
-    }
-  }
-
-  createMatch(matchId,matchName,host_websocket) {
-    this.pendingMatches.push([matchId,matchName,host_websocket])
-  }
-
-  confirmMatch(matchId,accepting_websocket) {
-    for(var i=0;i<this.pendingMatches.length;i++){
-      if (matchId == this.pendingMatches[i][0]) {
-        var arr = this.pendingMatches.splice(i,1).pop();
-        arr.push(accepting_websocket);
-        this.madeMatches.push(arr);
-      }
-    }
-  }
-
-  findWebsockets(matchId) {
-    for(var i=0;i<this.madeMatches.length;i++){
-      if (matchId == this.madeMatches[i][0]) {
-        return [this.madeMatches[i][2],this.madeMatches[i][3]]
-      }
-    }
-  }
-}
-
-// import { MatchMaker } from './matchmaker.js';
+var MatchMaker = require('./matchmaker.js')
 
 var WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({port:2018})
+  wss = new WebSocketServer({port:5000})
 
 const MATCHMAKER = new MatchMaker;
 
@@ -95,47 +49,20 @@ wss.on('connection', function(ws) {
         websockets[0].send('make_move,' + message[2]);
         websockets[1].send('make_move,' + message[2]);
       } catch(err) {
-        console.log('catcher')
         MATCHMAKER.removeMadeMatch(message[1]);
-        ws.send('other_playing_missing');
+        ws.send('other_player_missing');
       }
     }
   });
-
 });
 
-// function pingPending(matchId) {
-//   for(var i = 0;i < MATCHMAKER.pendingMatches.length;i++) {
-//     MATCHMAKER.pendingMatches[i][2].send('__ping__')
-//     tm = setTimeout(function () {
-//       const id = MATCHMAKER.pendingMatches[i][0];
-//       MATCHMAKER.removePendingMatch(id);
-//     }, 5000);
-//   }
-// }
-//
-// function pingMade(matchId) {
-//   for(var i = 0;i < MATCHMAKER.madeMatches.length;i++) {
-//     MATCHMAKER.madeMatches[i][2].send('__ping__')
-//     tm = setTimeout(function () {
-//       const id = MATCHMAKER.madeMatches[i][0];
-//       MATCHMAKER.removeMadeMatch(id);
-//     }, 5000);
-//   }
-// }
-//
-// function pong() {
-//     clearTimeout(tm);
-// }
-//
-// websocket_conn.onopen = function () {
-//     setInterval(ping, 30000);
-// }
-//
-// websocket_conn.onmessage = function (evt) {
-//     var msg = evt.data;
-//     if (msg == '__pong__') {
-//         pong();
-//         return;
-//     }
-// }
+setInterval(() => {
+  for(var i=0;i<MATCHMAKER.madeMatches.length;i++) {
+    if (MATCHMAKER.madeMatches[i][2].readyState != 1 && MATCHMAKER.madeMatches[i][3].readyState != 1) {
+      MATCHMAKER.removeMadeMatch(MATCHMAKER.madeMatches[i][0])
+    }
+  }
+}, 10000);
+
+
+//remove pending on interval

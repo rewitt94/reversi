@@ -1,8 +1,24 @@
-export class MatchMaker {
+class MatchMaker {
 
   constructor() {
     this.pendingMatches = []
     this.madeMatches = []
+  }
+
+  removePendingMatch(matchId) {
+    for(var i=0;i<this.pendingMatches.length;i++){
+      if (matchId == this.pendingMatches[i][0]) {
+        this.pendingMatches.splice(i,1)
+      }
+    }
+  }
+
+  removeMadeMatch(matchId) {
+    for(var i=0;i<this.madeMatches.length;i++){
+      if (matchId == this.madeMatches[i][0]) {
+        this.madeMatches.splice(i,1)
+      }
+    }
   }
 
   createMatch(matchId,matchName,host_websocket) {
@@ -12,7 +28,9 @@ export class MatchMaker {
   confirmMatch(matchId,accepting_websocket) {
     for(var i=0;i<this.pendingMatches.length;i++){
       if (matchId == this.pendingMatches[i][0]) {
-        this.madeMatches.push(this.pendingMatches.splice[i].push(accepting_websocket))
+        var arr = this.pendingMatches.splice(i,1).pop();
+        arr.push(accepting_websocket);
+        this.madeMatches.push(arr);
       }
     }
   }
@@ -25,3 +43,5 @@ export class MatchMaker {
     }
   }
 }
+
+module.exports = MatchMaker

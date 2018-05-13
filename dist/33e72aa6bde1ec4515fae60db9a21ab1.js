@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({5:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -84,44 +84,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var BOARD_TEMPLATE = "\n  <div id=\"A\">\n    <div><div id=\"A1\"></div></div>\n    <div><div id=\"A2\"></div></div>\n    <div><div id=\"A3\"></div></div>\n    <div><div id=\"A4\"></div></div>\n    <div><div id=\"A5\"></div></div>\n    <div><div id=\"A6\"></div></div>\n    <div><div id=\"A7\"></div></div>\n    <div><div id=\"A8\"></div></div>\n  </div>\n  <div id=\"B\">\n    <div><div id=\"B1\"></div></div>\n    <div><div id=\"B2\"></div></div>\n    <div><div id=\"B3\"></div></div>\n    <div><div id=\"B4\"></div></div>\n    <div><div id=\"B5\"></div></div>\n    <div><div id=\"B6\"></div></div>\n    <div><div id=\"B7\"></div></div>\n    <div><div id=\"B8\"></div></div>\n  </div>\n  <div id=\"C\">\n    <div><div id=\"C1\"></div></div>\n    <div><div id=\"C2\"></div></div>\n    <div><div id=\"C3\"></div></div>\n    <div><div id=\"C4\"></div></div>\n    <div><div id=\"C5\"></div></div>\n    <div><div id=\"C6\"></div></div>\n    <div><div id=\"C7\"></div></div>\n    <div><div id=\"C8\"></div></div>\n  </div>\n  <div id=\"D\">\n    <div><div id=\"D1\"></div></div>\n    <div><div id=\"D2\"></div></div>\n    <div><div id=\"D3\"></div></div>\n    <div><div id=\"D4\"></div></div>\n    <div><div id=\"D5\"></div></div>\n    <div><div id=\"D6\"></div></div>\n    <div><div id=\"D7\"></div></div>\n    <div><div id=\"D8\"></div></div>\n  </div>\n  <div id=\"E\">\n    <div><div id=\"E1\"></div></div>\n    <div><div id=\"E2\"></div></div>\n    <div><div id=\"E3\"></div></div>\n    <div><div id=\"E4\"></div></div>\n    <div><div id=\"E5\"></div></div>\n    <div><div id=\"E6\"></div></div>\n    <div><div id=\"E7\"></div></div>\n    <div><div id=\"E8\"></div></div>\n  </div>\n  <div id=\"F\">\n    <div><div id=\"F1\"></div></div>\n    <div><div id=\"F2\"></div></div>\n    <div><div id=\"F3\"></div></div>\n    <div><div id=\"F4\"></div></div>\n    <div><div id=\"F5\"></div></div>\n    <div><div id=\"F6\"></div></div>\n    <div><div id=\"F7\"></div></div>\n    <div><div id=\"F8\"></div></div>\n  </div>\n  <div id=\"G\">\n    <div><div id=\"G1\"></div></div>\n    <div><div id=\"G2\"></div></div>\n    <div><div id=\"G3\"></div></div>\n    <div><div id=\"G4\"></div></div>\n    <div><div id=\"G5\"></div></div>\n    <div><div id=\"G6\"></div></div>\n    <div><div id=\"G7\"></div></div>\n    <div><div id=\"G8\"></div></div>\n  </div>\n  <div id=\"H\">\n    <div><div id=\"H1\"></div></div>\n    <div><div id=\"H2\"></div></div>\n    <div><div id=\"H3\"></div></div>\n    <div><div id=\"H4\"></div></div>\n    <div><div id=\"H5\"></div></div>\n    <div><div id=\"H6\"></div></div>\n    <div><div id=\"H7\"></div></div>\n    <div><div id=\"H8\"></div></div>\n  </div>\n";
 
-var SplitScreenController = exports.SplitScreenController = function () {
-  function SplitScreenController() {
-    _classCallCheck(this, SplitScreenController);
-  }
-
-  _createClass(SplitScreenController, [{
-    key: "playMove",
-    value: function playMove(board, idString) {
-      console.log("playMove", board, idString);
-    }
-  }, {
-    key: "showMove",
-    value: function showMove(board, idString) {
-      console.log("showMove", board, idString);
-    }
-  }, {
-    key: "hideMove",
-    value: function hideMove(board, idString) {
-      console.log("hideMove", board, idString);
-    }
-  }]);
-
-  return SplitScreenController;
-}();
-
 var Board = exports.Board = function () {
-  function Board(element, CellClass) {
+  function Board(element, CellClass, controller) {
     var _this = this;
-
-    var controller = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Controller();
 
     _classCallCheck(this, Board);
 
     element.innerHTML = BOARD_TEMPLATE;
-
-    /*
-     * Setup phase
-     */
     this.grid = [];
     for (var x = 0; x < 8; x++) {
       var column = [];
@@ -231,7 +200,7 @@ var Board = exports.Board = function () {
 
   return Board;
 }();
-},{}],7:[function(require,module,exports) {
+},{}],5:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -247,7 +216,7 @@ var Cell = exports.Cell = function () {
     _classCallCheck(this, Cell);
 
     this.idString = idString;
-    this.validation = false;
+    this.validated = false;
   }
 
   _createClass(Cell, [{
@@ -263,24 +232,6 @@ var Cell = exports.Cell = function () {
       cell.style['background-color'] = 'white';
     }
   }, {
-    key: 'setTransparent',
-    value: function setTransparent() {
-      var cell = document.getElementById(this.idString);
-      cell.style.opacity = 0.65;
-    }
-  }, {
-    key: 'setOpaque',
-    value: function setOpaque() {
-      var cell = document.getElementById(this.idString);
-      cell.style.opacity = 1;
-    }
-  }, {
-    key: 'removeColor',
-    value: function removeColor() {
-      var cell = document.getElementById(this.idString);
-      cell.style['background-color'] = '';
-    }
-  }, {
     key: 'isClear',
     value: function isClear() {
       var cell = document.getElementById(this.idString);
@@ -293,20 +244,40 @@ var Cell = exports.Cell = function () {
       return cell.style['background-color'];
     }
   }, {
-    key: 'getOpacity',
-    value: function getOpacity() {
+    key: 'showValid',
+    value: function showValid(blackTurn) {
+      if (blackTurn) {
+        this.setBlack();
+      } else {
+        this.setWhite();
+      }
+      this._setTransparent();
+      this.validated = true;
+    }
+  }, {
+    key: 'hideValid',
+    value: function hideValid() {
+      this.setOpaque();
+      this._removeColor();
+      this.validated = false;
+    }
+  }, {
+    key: 'setOpaque',
+    value: function setOpaque() {
       var cell = document.getElementById(this.idString);
-      return cell.style.opacity;
+      cell.style.opacity = 1;
     }
   }, {
-    key: 'validate',
-    value: function validate() {
-      this.validation = true;
+    key: '_setTransparent',
+    value: function _setTransparent() {
+      var cell = document.getElementById(this.idString);
+      cell.style.opacity = 0.65;
     }
   }, {
-    key: 'invalidate',
-    value: function invalidate() {
-      this.validation = false;
+    key: '_removeColor',
+    value: function _removeColor() {
+      var cell = document.getElementById(this.idString);
+      cell.style['background-color'] = '';
     }
   }, {
     key: 'flip',
@@ -314,35 +285,34 @@ var Cell = exports.Cell = function () {
       var cell = document.getElementById(this.idString);
       cell.style.width = '60px';
       cell.style.left = '10%';
-      console.log('oi');
-      this.decreaseWidth(cell, playingColor);
+      this._decreaseWidth(cell, playingColor);
     }
   }, {
-    key: 'decreaseWidth',
-    value: function decreaseWidth(cell, playingColor) {
+    key: '_decreaseWidth',
+    value: function _decreaseWidth(cell, playingColor) {
       var _this = this;
 
       if (parseInt(cell.style.width) > 2) {
         cell.style.width = parseInt(cell.style.width) - 2 + 'px';
         cell.style.left = parseInt(cell.style.left) + 1 + 'px';
         setTimeout(function () {
-          return _this.decreaseWidth(cell, playingColor);
+          return _this._decreaseWidth(cell, playingColor);
         }, 1);
       } else {
         cell.style.background = playingColor;
-        this.increaseWidth(cell, playingColor);
+        this._increaseWidth(cell, playingColor);
       }
     }
   }, {
-    key: 'increaseWidth',
-    value: function increaseWidth(cell, playingColor) {
+    key: '_increaseWidth',
+    value: function _increaseWidth(cell, playingColor) {
       var _this2 = this;
 
       if (parseInt(cell.style.width) < 60) {
         cell.style.width = parseInt(cell.style.width) + 2 + 'px';
         cell.style.left = parseInt(cell.style.left) - 1 + 'px';
         setTimeout(function () {
-          return _this2.increaseWidth(cell, playingColor);
+          return _this2._increaseWidth(cell, playingColor);
         }, 1);
       }
     }
@@ -350,7 +320,7 @@ var Cell = exports.Cell = function () {
 
   return Cell;
 }();
-},{}],6:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,9 +331,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Scoreboard = exports.Scoreboard = function () {
-  function Scoreboard() {
-    _classCallCheck(this, Scoreboard);
+var Scorer = exports.Scorer = function () {
+  function Scorer() {
+    _classCallCheck(this, Scorer);
 
     this.blackTurn = true;
     this.playingColor = 'black';
@@ -372,7 +342,7 @@ var Scoreboard = exports.Scoreboard = function () {
     this.whiteScore = 2;
   }
 
-  _createClass(Scoreboard, [{
+  _createClass(Scorer, [{
     key: 'changePlayer',
     value: function changePlayer() {
       this.blackTurn = !this.blackTurn;
@@ -389,260 +359,196 @@ var Scoreboard = exports.Scoreboard = function () {
     key: 'addScore',
     value: function addScore() {
       this.blackTurn ? this.blackScore++ : this.whiteScore++;
-      this.updateScoresToHTML();
     }
   }, {
     key: 'subtractScore',
     value: function subtractScore() {
       this.blackTurn ? this.whiteScore-- : this.blackScore--;
-      this.updateScoresToHTML();
     }
   }, {
     key: 'updateScoresToHTML',
     value: function updateScoresToHTML() {
-      document.getElementById('black_score').innerHTML = SCOREBOARD.blackScore;
-      document.getElementById('white_score').innerHTML = SCOREBOARD.whiteScore;
+      document.getElementById('black_score').innerHTML = this.blackScore;
+      document.getElementById('white_score').innerHTML = this.whiteScore;
     }
   }]);
 
-  return Scoreboard;
+  return Scorer;
 }();
-},{}],8:[function(require,module,exports) {
-"use strict";
+},{}],7:[function(require,module,exports) {
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SplitScreenController = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _scorer = require('./scorer.js');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var GameMode = exports.GameMode = function () {
-  function GameMode() {
-    _classCallCheck(this, GameMode);
+var SplitScreenController = exports.SplitScreenController = function () {
+  function SplitScreenController() {
+    var scorer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new _scorer.Scorer();
 
-    this.splitScreen = false;
-    this.multiplayer = false;
-    this.computerOpponent = false;
-    this.playingBlack = false;
+    _classCallCheck(this, SplitScreenController);
+
+    this.scorer = scorer;
   }
 
-  _createClass(GameMode, [{
-    key: "playSplitScreen",
-    value: function playSplitScreen() {
-      this.splitScreen = true;
+  _createClass(SplitScreenController, [{
+    key: 'playMove',
+    value: function playMove(board, idString) {
+      var cell = board.getCell(idString);
+      if (cell.validated) {
+        this._makeMove(board, idString);
+      }
     }
   }, {
-    key: "playMultiplayer",
-    value: function playMultiplayer() {
-      this.multiplayer = true;
+    key: 'showMove',
+    value: function showMove(board, idString) {
+      if (this._validateMove(board, idString)) {
+        var cell = board.getCell(idString);
+        cell.showValid(this.scorer.blackTurn);
+      }
     }
   }, {
-    key: "playComputerOpponent",
-    value: function playComputerOpponent() {
-      this.ai = true;
+    key: 'hideMove',
+    value: function hideMove(board, idString) {
+      var cell = board.getCell(idString);
+      if (cell.validated) {
+        cell.hideValid();
+      }
     }
   }, {
-    key: "playAsBlack",
-    value: function playAsBlack() {
-      this.playingBlack = true;
+    key: '_checkMove',
+    value: function _checkMove(board, idString) {
+      var _this = this;
+
+      var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
+      var directionsCount = [];
+      for (var i = 0; i < 8; i++) {
+        var moveFound = false;
+        var movePossible = true;
+        var count = 0;
+        board.traverse(idString, directions[i], function (cell) {
+          if (movePossible && !moveFound) {
+            if (cell.getColor() == _this.scorer.otherColor) {
+              count++;
+            } else if (cell.getColor() == _this.scorer.playingColor && count > 0) {
+              moveFound = true;
+            } else {
+              movePossible = false;
+            }
+          }
+        });
+        if (!moveFound) {
+          count = 0;
+        }
+        directionsCount.push(count);
+      }
+      return directionsCount;
     }
   }, {
-    key: "playAsWhite",
-    value: function playAsWhite() {
-      this.playingBlack = false;
+    key: '_validateMove',
+    value: function _validateMove(board, idString) {
+      var directionsCount = this._checkMove(board, idString);
+      var cell = board.getCell(idString);
+      return directionsCount.some(function (x) {
+        return x > 0;
+      }) && cell.isClear();
+    }
+  }, {
+    key: '_makeMove',
+    value: function _makeMove(board, idString) {
+      var _this2 = this;
+
+      var cell = board.getCell(idString);
+      cell.setOpaque();
+      if (this.scorer.blackTurn) {
+        cell.setBlack();
+      } else {
+        cell.setWhite();
+      }
+      var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
+      var directionsCount = this._checkMove(board, idString);
+      for (var i = 0; i < 8; i++) {
+        var count = 0;
+        board.traverse(idString, directions[i], function (cell) {
+          if (count < directionsCount[i]) {
+            if (_this2.scorer.blackTurn) {
+              cell.flip('black');
+            } else {
+              cell.flip('white');
+            }
+            _this2.scorer.transferScore();
+          }
+          count++;
+        });
+      }
+      this.scorer.addScore();
+      this.scorer.changePlayer();
+      this.scorer.updateScoresToHTML();
+      cell.validated = false;
     }
   }]);
 
-  return GameMode;
+  return SplitScreenController;
 }();
-
-//this might be irrelavant
-},{}],3:[function(require,module,exports) {
+},{"./scorer.js":10}],8:[function(require,module,exports) {
 'use strict';
 
-var _board = require('./board.js');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MultiplayerController = undefined;
 
-var _cell = require('./cell.js');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _scoreboard = require('./scoreboard.js');
+var _scorer = require('./scorer.js');
 
-var _gamemode = require('./gamemode.js');
-
-var BOARD = new _board.Board(document.getElementById('reversi_board'), _cell.Cell);
-var SCOREBOARD = new _scoreboard.Scoreboard();
-var GAMEMODE = new _gamemode.GameMode();
-
-BOARD.grid[3][3].setWhite();
-BOARD.grid[4][4].setWhite();
-BOARD.grid[3][4].setBlack();
-BOARD.grid[4][3].setBlack();
-
-window.chooseGameMode = function (gameMode) {
-  switch (gameMode) {
-    case 'split_screen':
-      GAMEMODE.playSplitScreen();
-      break;
-    case 'multiplayer':
-      GAMEMODE.playMultiplayer();
-      document.getElementById('lobby_options_div').style.visibility = 'visible';
-      break;
-    case 'computer_opponent':
-      GAMEMODE.playComputerOpponent();
-      document.getElementById('player_color_div').style.visibility = 'visible';
-      break;
-  }
-  document.getElementById('game_mode_div').style.visibility = 'hidden';
-};
-
-window.chooseColor = function (color) {
-  switch (color) {
-    case 'black':
-      GAMEMODE.playAsBlack();
-      break;
-    case 'white':
-      GAMEMODE.playAsWhite();
-      break;
-  }
-  document.getElementById('player_color_div').style.visibility = 'hidden';
-};
-
-function checkMove(idString) {
-  var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
-  var directionsCount = [];
-  for (var i = 0; i < 8; i++) {
-    var moveFound = false;
-    var movePossible = true;
-    var count = 0;
-    BOARD.traverse(idString, directions[i], function (cell) {
-      if (movePossible && !moveFound) {
-        if (cell.getColor() == SCOREBOARD.otherColor) {
-          count++;
-        } else if (cell.getColor() == SCOREBOARD.playingColor && count > 0) {
-          moveFound = true;
-        } else {
-          movePossible = false;
-        }
-      }
-    });
-    if (!moveFound) {
-      count = 0;
-    }
-    directionsCount.push(count);
-  }
-  return directionsCount;
-}
-
-function validateMove(idString) {
-  var directionsCount = checkMove(idString);
-  var cell = BOARD.getCell(idString);
-  return directionsCount.some(function (x) {
-    return x > 0;
-  }) && cell.isClear();
-}
-
-window.showMove = function (idString) {
-  if (validateMove(idString)) {
-    var cell = BOARD.getCell(idString);
-    if (SCOREBOARD.blackTurn) {
-      cell.setBlack();
-    } else {
-      cell.setWhite();
-    }
-    cell.setTransparent();
-    cell.validate();
-  }
-};
-
-window.hideMove = function (idString) {
-  var cell = BOARD.getCell(idString);
-  if (cell.validation) {
-    cell.setOpaque();
-    cell.removeColor();
-    cell.invalidate();
-  }
-};
-
-window.playMove = function (idString) {
-  var cell = BOARD.getCell(idString);
-  if (cell.validation) {
-    if (GAMEMODE.splitScreen) {
-      makeMove(idString);
-    } else if (GAMEMODE.multiplayer) {
-      if (GAMEMODE.playingBlack && SCOREBOARD.blackTurn || !GAMEMODE.playingBlack && !SCOREBOARD.blackTurn) {
-        ws.send('play_move,' + matchId + ',' + idString);
-      }
-    } else if (GAMEMODE.computerOpponent) {
-      if (GAMEMODE.playingBlack && SCOREBOARD.blackTurn || !GAMEMODE.playingBlack && !SCOREBOARD.blackTurn) {
-        makeMove(idString);
-        runAi();
-      }
-    }
-  }
-};
-
-function runAi() {}
-
-function makeMove(idString) {
-  var cell = BOARD.getCell(idString.toString());
-  cell.setOpaque();
-  if (SCOREBOARD.blackTurn) {
-    cell.setBlack();
-  } else {
-    cell.setWhite();
-  }
-  var directions = ['up', 'upRight', 'right', 'downRight', 'down', 'downLeft', 'left', 'upLeft'];
-  var directionsCount = checkMove(idString);
-  for (var i = 0; i < 8; i++) {
-    var count = 0;
-    BOARD.traverse(idString, directions[i], function (cell) {
-      if (count < directionsCount[i]) {
-        if (SCOREBOARD.blackTurn) {
-          cell.flip('black');
-        } else {
-          cell.flip('white');
-        }
-        SCOREBOARD.transferScore();
-      }
-      count++;
-    });
-  }
-  SCOREBOARD.addScore();
-  SCOREBOARD.changePlayer();
-  updateScoresToHTML();
-  cell.invalidate();
-}
-
-// NODE_ENV is set by parcel
-// console.log("node env is", process.env.NODE_ENV);
-
-// 1 == "1" is true,
-// but 1 === "1" is false
-//
-// generally using === is "safer"
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var WEBSOCKET_PATH = 'development' === "production" ? 'ws://ricky.hewitt.tech:80/reversiws' : 'ws://localhost:5000';
 
-var ws = new WebSocket(WEBSOCKET_PATH);
+var MultiplayerController = exports.MultiplayerController = function () {
+  function MultiplayerController() {
+    var scoreBoard = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new _scorer.Scorer();
 
-// event emmited when connected
-ws.onopen = function () {
-  console.log('websocket is connected...');
+    _classCallCheck(this, MultiplayerController);
 
-  // sending a send event to websocket server
-};
+    this.scoreBoard = scoreBoard;
+    this.ws = new WebSocket(WEBSOCKET_PATH);
+    this.matchPosted = false;
+    this.matchFound = true;
+    this.matchId = '';
+  }
 
-// This needs serious refactoring
+  _createClass(MultiplayerController, [{
+    key: 'playMove',
+    value: function playMove(board, idString) {
+      console.log("playMove", board, idString);
+    }
+  }, {
+    key: 'showMove',
+    value: function showMove(board, idString) {
+      console.log("showMove", board, idString);
+    }
+  }, {
+    key: 'hideMove',
+    value: function hideMove(board, idString) {
+      console.log("hideMove", board, idString);
+    }
+  }]);
+
+  return MultiplayerController;
+}();
 
 var matchPosted = false;
 var matchFound = true;
 var matchId = '';
-
-window.createMatch = function () {
-  document.getElementById('lobby_options_div').style.visibility = 'hidden';
-  document.getElementById('post_match_div').style.visibility = 'visible';
-};
 
 window.postMatch = function (matchName) {
   if (!matchPosted) {
@@ -650,17 +556,6 @@ window.postMatch = function (matchName) {
     // websockets only support strings currently
     var string = 'post,' + matchId.toString() + ',' + matchName;
     ws.send(string);
-
-    // const message = {
-    //   type: 'post',
-    //   matchId: matchId,
-    //   matchName: matchName
-    // };
-    // ws.send(JSON.stringify(message))
-    //
-    // on the server - JSON.parse(message) will get the original object back
-
-
     matchPosted = true;
   }
 };
@@ -670,74 +565,53 @@ window.searchMatches = function () {
   document.getElementById('lobby_options_div').style.visibility = 'hidden';
   document.getElementById('lobby_div').style.visibility = 'visible';
 };
+},{"./scorer.js":10}],3:[function(require,module,exports) {
+'use strict';
 
-// event emitted when recieving message
-function handleWebsocketMessage(message) {
-  message = message.data.split(',');
-  console.log(message);
-  if (message[0] == 'lobby') {
-    var lobby = document.getElementById('lobby_div');
-    if (message[1] == 'no_games') {
-      var noGames = document.createElement('H1');
-      noGames.innerHTML = 'No games available';
-      lobby.appendChild(noGames);
-    } else {
-      var _loop = function _loop() {
-        postedGame = document.createElement('button');
+var _board = require('./board.js');
 
-        var id = message[3 * i + 1];
-        postedGame.addEventListener('click', function () {
-          ws.send('accept,' + id);
-        });
-        postedGame.innerHTML = message[3 * i + 2];
-        lobby.appendChild(postedGame);
-      };
+var _cell = require('./cell.js');
 
-      for (var i = 0; i < message.length / 3; i++) {
-        var postedGame;
+var _splitScreenController = require('./splitScreenController.js');
 
-        _loop();
-      }
-    }
-  };
+var _multiplayerController = require('./multiplayerController.js');
 
-  if (message[0] == 'start_game_as_black') {
-    GAMEMODE.playAsBlack();
-    matchId = message[1];
-    matchFound = true;
-    matchPosted = false;
-    document.getElementById('lobby_div').style.visibility = 'hidden';
-    document.getElementById('post_match_div').style.visibility = 'hidden';
-    alert('you will play as black');
+var boardElement = document.getElementById('reversi_board');
+var board = void 0;
+
+window.chooseGameMode = function (gameMode) {
+  switch (gameMode) {
+    case 'split_screen':
+      createBoard(gameMode);
+      break;
+    case 'multiplayer':
+      createBoard(gameMode);
+      document.getElementById('lobby_options_div').style.visibility = 'visible';
+      break;
   }
-
-  if (message[0] == 'start_game_as_white') {
-    GAMEMODE.playAsWhite();
-    matchId = message[1];
-    matchFound = true;
-    matchPosted = false;
-    document.getElementById('lobby_div').style.visibility = 'hidden';
-    document.getElementById('post_match_div').style.visibility = 'hidden';
-    alert('you will play as white');
-  }
-
-  if (message[0] == 'make_move') {
-    makeMove(message[1]);
-  }
-
-  if (message[0] == 'other_player_missing') {
-    alert('connection failed');
-    location.reload();
-  }
-}
-
-ws.onmessage = function (message) {
-  return handleWebsocketMessage(message);
+  document.getElementById('game_mode_div').style.visibility = 'hidden';
 };
 
-// if handleWebsocketMessage is in a class use this, e.g.:
-// ws.onmessage = (message) => this.handleWebsocketMessage(message);
-},{"./board.js":5,"./cell.js":7,"./scoreboard.js":6,"./gamemode.js":8}],19:[function(require,module,exports) {
+function createMatch() {
+  document.getElementById('lobby_options_div').style.visibility = 'hidden';
+  document.getElementById('post_match_div').style.visibility = 'visible';
+}
+
+function createBoard(gameMode) {
+  switch (gameMode) {
+    case 'split_screen':
+      board = new _board.Board(boardElement, _cell.Cell, new _splitScreenController.SplitScreenController());
+      break;
+    case 'multiplayer':
+      board = new _board.Board(boardElement, _cell.Cell, new _multiplayerController.MultiplayerController());
+      break;
+  }
+  board.grid[3][3].setWhite();
+  board.grid[4][4].setWhite();
+  board.grid[3][4].setBlack();
+  board.grid[4][3].setBlack();
+}
+},{"./board.js":6,"./cell.js":5,"./splitScreenController.js":7,"./multiplayerController.js":8}],17:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -759,7 +633,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '58817' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '49318' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -860,5 +734,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[19,3])
-//# sourceMappingURL=/dist/373e3893e77d85624afd7cb389ecc5bd.map
+},{}]},{},[17,3])
+//# sourceMappingURL=/dist/33e72aa6bde1ec4515fae60db9a21ab1.map
